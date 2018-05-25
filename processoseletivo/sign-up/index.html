@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        
+        <!-- Google Tag Manager -->
+<!--<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5NFQCC');</script>-->
+<!-- End Google Tag Manager -->
+
+        <title>Template</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="format-detection" content="telephone=no">
+		<script>
+			if(window.location.protocol != 'https:') {
+				var host = window.location.hostname;
+				host = host.replace('www.', '');
+				location.href =  "https://www." + host + window.location.pathname;
+			  }
+			if(window.location.host.indexOf('www') > -1) {
+			} else {
+				var host = window.location.hostname;
+				host = host.replace('www.', '');
+				location.href =  "https://www." + host + window.location.pathname;
+			}
+			  </script>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <meta name="google-signin-client_id" content="382104770013-q68q1lpl61edht90sofmnano8i9d142g.apps.googleusercontent.com">
+        <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+        <!-- htmlmin:ignore -->
+
+<!-- htmlmin:ignore -->
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+    }
+
+    .g-signin2 .abcRioButtonLightBlue {
+        width: 100% !important;
+    }
+
+</style>
+
+        
+<script>
+    var email = '';
+    function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        console.log(profile)
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+        if(email != '') {
+            $('#nome', window.parent.document).val(profile.getName());
+            $('#email', window.parent.document).val(profile.getEmail());
+        } 
+
+        
+        $('#nome', window.parent.document).val(profile.getName());
+        $('#email', window.parent.document).val(profile.getEmail());
+        
+
+    }
+
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            $('#btnSignOut').hide();
+        });
+    }
+
+</script>
+    </head>
+    <body>
+        <!-- Google Tag Manager (noscript) -->
+<!--<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5NFQCC"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>-->
+<!-- End Google Tag Manager (noscript) -->
+
+
+        <!-- INCLUA AQUI O SEU HEADER -->
+        
+        <section class="section section__wrapper">
+            <div class="section__content">
+				<div class="g-signin2" data-onsuccess="onSignIn"></div>
+<!-- 
+<a href="javascript:void(0);" id="btnSignOut" onclick="signOut();">Sair</a> -->
+            </div>
+        </section>
+
+        <!-- INCLUA AQUI O SEU FOOTER -->
+
+        <!-- htmlmin:ignore -->
+        <!-- build:js scripts/vendors.js -->
+        <!-- <script src="jquery/dist/jquery.min.js"></script> -->
+        <!-- endbuild -->
+        <!-- htmlmin:ignore -->
+
+    </body>
+</html>

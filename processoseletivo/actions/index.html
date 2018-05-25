@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        
+        <title>Actions</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="format-detection" content="telephone=no">
+		<script>
+			if(window.location.protocol != 'https:') {
+				var host = window.location.hostname;
+				host = host.replace('www.', '');
+				location.href =  "https://www." + host + window.location.pathname;
+			  }
+			if(window.location.host.indexOf('www') > -1) {
+			} else {
+				var host = window.location.hostname;
+				host = host.replace('www.', '');
+				location.href =  "https://www." + host + window.location.pathname;
+			}
+			  </script>
+        <script src="../scripts/scripts.js"></script>
+
+    <style>
+      .btn-finish {
+        width: 265px;
+        border-radius: 0px;
+        font-size: 20px;
+        font-family: MyriadPro-Cond, Helvetica, Arial, sans-serif;
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        padding: 0px;
+        border: 1px solid #FFF;
+        color: #fff200;
+      }
+
+.box {
+  position:relative;
+  vertical-align: middle;
+  color: #fff200;
+  display: inline-block;
+  line-height: 60px;
+  text-align: center;
+  transition: 0.5s;
+  cursor: pointer;
+  border: 2px solid #FFF;
+  -webkit-transition:0.5s;
+}
+
+.box:hover {
+  border: 2px solid #fff200;
+  background: #263a7f;
+  color: #fff200;
+}
+
+.box::before, .box::after {
+  width: 100%;
+  height:100%;
+  z-index: 3;
+  content:'';
+  position: absolute;
+  top:0;
+  left:0;
+  box-sizing: border-box;
+  -webkit-transform: scale(0);
+  transition: 0.5s;
+}
+
+.foo::before {
+  border-bottom: 2px solid #fff200;
+  border-left: 2px solid #fff200;
+  -webkit-transform-origin: 0 100%;
+}
+
+.foo::after {
+  border-top: 2px solid #fff200;
+  border-right: 2px solid #fff200;
+  -webkit-transform-origin: 100% 0%;
+}
+
+
+.bar::before {
+  border-bottom: 2px solid #fff200;
+  border-left: 2px solid #fff200;
+  -webkit-transform-origin: 100% 0%;
+}
+
+.bar::after {
+  border-top: 2px solid #fff200;
+  border-right: 2px solid #fff200;
+  -webkit-transform-origin: 0% 100%;
+}
+
+.curmudgeon::before {
+  border-bottom: 2px solid #fff200;
+  border-left: 0;
+  -webkit-transform-origin: 0% 100%;
+}
+
+.curmudgeon::after {
+  border-top: 0;
+  border-right: 0;
+  -webkit-transform-origin: 50% 50%;
+}
+
+.box:hover::after, .box:hover::before {
+  -webkit-transform: scale(1);
+}
+
+.link {
+  line-height: 1em;
+  position: absolute;
+  bottom: 0;
+  right: 20px;
+  width: 300px;
+  height: 50px;
+  font-family: "Open Sans","Roboto",Arial,sans-serif;
+  text-align: right;
+}
+
+.link > a {
+  text-decoration: none;
+  color: #FF0;
+}
+    </style>
+
+    <script>
+        var latitude, longitude;
+        var selectedTest;
+        var cpf, nome, email, telefone, curso, modalidade, polo;
+
+        $(document).ready(function() {
+
+
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                var crd = pos.coords;
+
+                latitude = crd.latitude;
+                longitude = crd.longitude;
+
+                console.log(latitude);
+                var values = [crd.latitude, crd.longitude];
+            }, function(err) {
+                console.warn('ERROR(' + err.code + '): ' + err.message);
+            });
+
+            maskInputs();
+            getTest();
+            buttonClickForm();
+            togglePolo();
+        });
+
+        function doSomethingWithCoordinateValues(coords) {
+            // do something with 'coords'
+        }
+
+        function getTest() {
+          $('.gp__test .test__item', window.parent.document).on('click', function(e) {
+            $('.gp__test .test__item', window.parent.document).removeClass('active');
+            $(this, window.parent.document).addClass('active');
+            selectedTest = $(this, window.parent.document).attr('data-id-test');
+            console.log(selectedTest);
+          });
+        }
+
+        function buttonClickForm() {
+          $('.btn-finish').on('click', function(e) {
+            $('#cpf, #nome, #email, #telefone', window.parent.document).removeClass('fail');
+            if($('#cpf', window.parent.document).val().length < 14) {
+              $('#cpf', window.parent.document).addClass('fail').focus();
+            } else if($('#nome', window.parent.document).val().length < 2) {
+              $('#nome', window.parent.document).addClass('fail').focus();
+            } else if($('#email', window.parent.document).val().length < 7) {
+              $('#email', window.parent.document).addClass('fail').focus();
+            } else if($('#telefone', window.parent.document).val().length < 15) {
+              $('#telefone', window.parent.document).addClass('fail').focus();
+            }
+          });
+        }
+
+        function togglePolo() {
+          $('.thumb-polo', window.parent.document).on('click', function(e) {
+            $('.thumb-polo', window.parent.document).not(this, window.parent.document).find('.hide-default').slideUp('normal');
+            $(this, window.parent.document).find('.hide-default').slideToggle('normal');
+          });
+        }
+
+
+
+
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log(profile)
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+            setCookie('email', profile.getEmail(), 7);
+
+
+        }
+
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+            });
+        }
+
+        function setCookie(name,value,days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days*24*60*60*1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+        }
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
+        }
+
+        function maskInputs() {
+          var cpfField = window.parent.document.getElementById('cpf');
+          var phoneField = window.parent.document.getElementById('telefone');
+
+          if (phoneField != null && cpfField != null) {
+              phoneField.addEventListener('keypress', function(e) {
+
+                  switch (phoneField.value.length) {
+                      case 1:
+                          phoneField.value = "(" + phoneField.value;
+                          break;
+                      case 3:
+                          phoneField.value = phoneField.value + ") ";
+                          break;
+                      case 9:
+                          phoneField.value = phoneField.value + "-";
+                          break;
+                      case 14:
+                          phoneField.value = phoneField.value.substring(0, 9) + phoneField.value.charAt(10) + '-' + phoneField.value.substring(11);
+                          break;
+                  }
+
+                  if (e.charCode > 47 && e.charCode < 58) {
+                      return true;
+                  }else{
+                      var phoneInput = $('#telefone', window.parent.document);
+                      setTimeout(function(){
+                        phoneInput.val(phoneInput.val().slice(0, -1));
+                      }, 50);
+                      return false;
+                  }
+
+
+
+              });
+
+              cpfField.addEventListener('keypress', function(e) {
+                  switch (cpfField.value.length) {
+                      case 3:
+                          cpfField.value = cpfField.value + ".";
+                          break;
+                      case 7:
+                          cpfField.value = cpfField.value + ".";
+                          break;
+                      case 11:
+                          cpfField.value = cpfField.value + "-";
+                          break;
+                      default:
+                          break;
+                  }
+
+                  if (e.charCode > 47 && e.charCode < 58) {
+                      return true;
+                  }else{
+                      var phoneInput = $('#cpf', window.parent.document);
+                      setTimeout(function(){
+                        phoneInput.val(phoneInput.val().slice(0, -1));
+                      }, 50);
+                      return false;
+                  }
+              });
+          }
+      }
+
+    </script>
+    </head>
+    <body>
+        <a href="javascript:void(0);" class="btn-finish box foo">FINALIZAR INSCRIÇÃO</a>
+
+
+    </body>
+</html>
